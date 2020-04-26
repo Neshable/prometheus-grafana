@@ -1,0 +1,36 @@
+# docker-compose.yml
+version: '3'
+
+services:
+    prometheus:
+        image: prom/prometheus:v2.1.0
+        volumes:
+            - ./prometheus/:/etc/prometheus/
+            - prometheus_data:/prometheus
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--web.external-url=http://monitor.hmnts.webiz.team/prometheus'
+        ports:
+            - 9090:9090
+        restart: always
+    grafana:
+        image: grafana/grafana
+        environment:
+            - GF_SECURITY_ADMIN_PASSWORD=admin
+        volumes:
+            - ./grafana/conf/grafana.ini:/etc/grafana/grafana.ini
+            - grafana_data:/var/lib/grafana
+        env_file:
+            - ./grafana/config.monitoring
+        depends_on:
+            - prometheus
+        ports:
+            - 3000:3000
+        restart: always
+    #alertmanager:
+    #    build: ./alertmanager
+    #    command:
+    #        - '-config.file=/alertmanager.yml'
+volumes:
+    prometheus_data: {}
+    grafana_data: {}

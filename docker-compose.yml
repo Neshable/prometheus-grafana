@@ -27,6 +27,16 @@ services:
         ports:
             - 3000:3000
         restart: always
+    loki:
+        image: grafana/loki
+        command:
+            - '-config.file=/etc/loki/loki-local-config.yaml'
+            - '—log.level=debug'
+        ports:
+            - "3111:3111"
+        volumes:
+            - ./loki/conf/loki-local-config.yaml:/etc/loki/loki-local-config.yaml
+            - ./loki/data:/data/loki
     #alertmanager:
     #    build: ./alertmanager
     #    command:

@@ -31,3 +31,6 @@ storage_config:
 
   filesystem:
     directory: /data/loki/chunks
+    
+limits_config:
+  enforce_metric_name: false

@@ -1,0 +1,29 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+clients:
+  - url: http://lokiserver/loki/api/v1/push
+    basic_auth:
+     username: some
+     password: some
+
+scrape_configs:
+  - job_name: nginx
+    pipeline_stages:
+    static_configs:
+    - targets:
+        - localhost
+      labels:
+        job: nginx
+        host: myhost
+        __path__: /var/log/nginx/*log
+  - job_name: fail2ban
+    pipeline_stages:
+    static_configs:
+    - targets:
+        - localhost
+      labels:
+        job: fail2ban
+        host: myhost
+        __path__: /var/log/fail2ban.log

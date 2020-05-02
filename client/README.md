@@ -1,0 +1,1 @@
+Location of promtail is set to be `/home/promtail/`
